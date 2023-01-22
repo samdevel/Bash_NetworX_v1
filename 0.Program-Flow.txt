@@ -1,0 +1,92 @@
+
+Menu.AFM.sh
+
+1.Menu-site_1.sh
+     Menu-site_1-Sw.sh
+	site_1-backupSwitch-Cisco.exp
+	site_1-backupSwitch-Cisco-ShowTech.exp
+	site_1-backupSwitch-Cisco_Custom-Core.exp
+	site_1-backupSwitch-Cisco_Custom-Access.exp
+     Menu-site_1-fw.sh 
+	site_1-backupFWSM.sh
+	  site_1-backupFWSM.exp
+	site_1-backupFW-SOE.sh
+	  site_1-backupFW-SOE.exp 
+	site_1-backupFW-All.sh
+     Menu-site_1-Sw_config.sh 
+	site_1-configuringFile-Cisco.exp
+     Menu-site_1-NAC.sh		<- Next
+	 Menu-site_1-NAC-Aruba.sh 
+	   site_1-NAC-Aruba-Auth.exp
+	   site_1-NAC-Aruba-All.exp
+	   site_1-NAC-Aruba-Services.exp
+	 Menu-site_2-NAC-sw.sh
+	   site_1-NAC-Sw-DiagAll.exp
+	   site_1-NAC-Sw-Diag.exp
+
+ 
+*DIR=config/Switch/$MONTH/site_1-Sw-Configs
+*Login-site_1-Sw
+*Login-site_1-FWSM
+*Login-site_1-FW-SOE
+
+
+2.Menu-site_2.sh
+     1.Menu-site_2-Sw.sh
+	site_2-backupSwitch-Alcatel.exp
+	site_2-backupSwitch-Alcatel-ShowTech.exp
+	site_2-configuring-Alcatel_Custom.exp
+	*/home/it/Desktop/script/Login-site_2-Sw
+	*DIR=/home/it/Desktop/script/configs/Switch/$MONTH/site_2-Sw-Configs.$DATE
+
+     2.Menu-site_2-Security.sh 
+	site_2-backupFW-SOE.sh
+	  site_2-backupFW-SOE.exp
+	*/home/it/Desktop/script/Login-site_2-Fw
+	*DIR=/home/it/Desktop/script/configs/site_2-Firewall/$MONTH/site_2-FWSOE-Configs.$DATE
+
+	site_2-backupClearPass.sh
+	  site_2-backupClearPass.exp 
+	*/home/it/Desktop/script/Login-site_2-Aruba
+	*/home/it/Desktop/script/configs/site_2-NAC-Aruba/$MONTH/site_2-NAC-Aruba-Configs.$DATE
+
+     3.Menu-site_2-NAC.sh
+	 Menu-site_2-NAC-sw.sh
+	   -List NAC Configured All(&Number)
+	   -List NAC Configured Indv Switch(&Number)
+	   -List NAC Auth All (&Number)
+	   -List NAC Auth Indv Switch(&Number)
+	   	site_2-NAC-Sw-Port.exp
+	   	site_2-NAC-Sw-Auth.exp
+	   -List site_2-NAC-Sw-Mac All (&Number)
+	   -List site_2-NAC-Sw-Mac Indv Switch (&Number)	   
+	   -Search for Mac
+	   -site_2 Config NAC Port
+	   -site_2 Config NAC Port-Revert	
+	       site_2-Sw-Mac.exp
+	       site_2-NAC-ConfigSw.exp	   
+	       site_2-NAC-ConfigSw-Revert.exp
+
+	 Menu-site_2-NAC-Aruba.sh 
+	   site_2-NAC-Aruba-Auth.exp
+	   site_2-NAC-Aruba-All.exp
+	   site_2-NAC-Aruba-Services.exp
+
+    4.Menu-site_2-Sw_config.sh 
+	  site_2-configuringFile-Alcatel.exp
+
+
+*DIR=config/NAC-Aruba/$MONTH/site_2-NAC-Aruba-Configs
+*Login-site_2-Sw
+*Login-site_2-Aruba
+*Login-site_2-FW-SOE
+
+
+Var:
+DIR=config/Switch/$MONTH/site_1-Configs.$DATE
+3.Menu-site_3.sh
+
+
+**** Modules
+admin1@ubuntu:~/script$ sudo apt-get install expect
+admin1@ubuntu:~/script$ sudo apt-get install nmap

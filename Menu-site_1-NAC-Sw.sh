@@ -1,0 +1,550 @@
+#!/bin/bash
+
+clear
+
+#--------------------------------------------#
+# Script Purpose : Switch-NAC diagnostics Tool
+# Script name    : Menu-site_1-NAC-Sw.sh
+# Site           : site_1 
+# Developer	     : sm@Devel
+#--------------------------------------------#
+
+#Verify login into the machine
+. ~/script/Login-site_1-Sw
+
+show_menu ()
+{
+#input
+echo " "
+echo "#--Entering Network Tool Menu for NAC-Sw Diagnostics site--#"
+echo " "
+echo "########################################"
+echo "#   Welcome to  NetworX Management     #"
+echo "#   ** NAC Diagnotics Tools - SW **    #"
+echo "#            Site: site_1              #"
+echo "########################################"
+echo " "
+echo " "
+echo "**************************"
+echo "Please select your choice:"
+echo "**************************"
+echo "[1] List Of NAC Ports Configured for All Switches"
+echo "[2] List Of NAC Ports Configured fo Individual Switch"
+echo "[3] List Of Authenticated NAC Users for All Switches"
+echo "[4] List Of Authenticated NAC Users for Individual Switch"
+echo "[5] List of Mac Address for All Switches"
+echo "[6] List of Mac Address for Individual Switch"
+echo "[7] Search for Mac Address" 
+echo "[8] List Vlan Port for All Switches"
+echo "[9] List Vlan Port for Individual Switch"
+echo "***************************************************"
+echo "[c]  Config A Port - Normal Port to NAC Port "
+echo "[cx] Config Many Ports - Normal Port to NAC Port"
+echo "[r]  Revert-Config A Port - NAC To Normal Port"
+echo "[rx] Revert-Config Many Ports - NAC To Normal Port"
+echo "[v]  Verify the current Switch Port"
+echo "***************************************************"
+echo "[b] Back to previous Menu "
+echo "[h] Back to Main Menu "
+echo " "
+echo -n "You are choosing: " 
+
+}
+
+########## Main ###########
+clear
+
+while true   
+do
+
+show_menu
+
+
+read choose
+echo " "
+
+case $choose in
+        1)
+	echo " *** List Of NAC Ports Configured for All Switches *** "
+
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-Port-All_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+
+	# Routine
+	
+	line=`cat IP-site_1.txt | wc -l`
+	echo "Number of Devices: $line"
+	
+	num=1
+
+	#echo $line
+	while [ $num -le $line ]
+             do
+
+	     address=`cat IP-site_1.txt | head -$num | tail -1`
+                
+	     echo "$num.Switch IP: $address ... config read"
+             ./site_1-NAC-Sw-Port.exp $address $username $password $enpass> $DIR/$address 2>&1
+	     num=$(( $num + 1 ));
+	     sleep 1
+	     done
+        echo "Listing NAC Ports ... DONE!"
+	echo ""
+	sleep 3     
+        ;;
+	   
+        2)
+	echo " *** List Of NAC Port Configured fo Individual Switch *** "
+        
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-Port-Indv_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+          
+        # Input
+	echo "*************************************** "
+	echo -n "Input Switch IP Address: "
+	read  address
+	echo "*************************************** "
+
+           ./site_1-NAC-Sw-Port.exp $address $username $password $enpass > $DIR/$address 2>&1
+
+        # result	
+        countNACPort=`cat $DIR/$address | wc -l`
+        countEnd=$(($countNACPort - 42))
+        viewNACPort=`cat $DIR/$address | tail -$countEnd`
+
+        echo ""
+        echo "Data being pulled from the logs  ..."
+        sleep 1
+        echo "Showing NAC Port being Configured"
+	echo "*********************************"
+	echo ""
+        echo "$DIR/$viewNACPort"
+        sleep 10
+        ;;
+	   
+        3)
+        echo "*** List Of User NAC Authenticated for All Switches *** "
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-Auth-All_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+
+     	# Routine
+	line=`cat IP-site_1.txt | wc -l`
+	echo "Number of Devices: $line"
+
+	num=1
+
+	#echo $line
+	while [ $num -le $line ]
+	     do
+
+	     address=`cat IP-site_1.txt | head -$num | tail -1`
+
+	     echo "$num.Switch IP: $address ... data read"
+             ./site_1-NAC-Sw-Auth.exp $address $username $password $enpass > $DIR/$address 2>&1
+		
+	     num=$(( $num + 1 ));
+	     sleep 1
+	     done
+
+        echo "Listing User NAC Authenticated ... DONE!"
+	echo ""
+	sleep 3     
+        ;;
+    
+	4)
+	echo " *** List Of USer NAC Port Authenticated for Individual Switch *** "
+        
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-Auth-Indv_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+          
+        # Input
+	echo "************************************* "
+	echo -n "Input Switch IP Address: "
+	read  address
+	echo "************************************* "
+            ./site_1-NAC-Sw-Auth.exp $address $username $password $enpass > $DIR/$address 2>&1
+
+        # result	
+        countNACPort=`cat $DIR/$address | wc -l`
+        countEnd=$(($countNACPort - 42))
+        viewNACAuth=`cat $DIR/$address | tail -$countEnd`
+
+        echo ""
+        echo "Data being pulled from the logs ..."
+        sleep 1
+        echo "Showing NAC Port being Authenticated"
+	echo "************************************"
+	echo ""
+        echo "$DIR/$viewNACAuth"
+        sleep 10
+
+        ;;
+	
+	5)
+	echo " *** List Of Mac-Address On All Switch *** "
+
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NRF-NAC-Sw-Mac-List-All_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+
+	# Routine
+	
+	line=`cat IP-NRF.txt | wc -l`
+	echo "number of Devices: $line"
+	
+	num=1
+
+	#echo $line
+	while [ $num -le $line ]
+	     do
+
+	     address=`cat IP-site_1.txt | head -$num | tail -1`
+                
+	     echo "$num.Switch IP: $address ... Data read"
+             ./NRF-Sw-Mac-List.exp $address $username $password > $DIR/$address 2>&1
+
+	     num=$(( $num + 1 ));
+	     sleep 1
+	     done
+
+        echo "Listing User Mac-Address ... DONE!"
+	echo ""
+	sleep 3     	
+        ;;
+    
+	6)
+	echo " *** List Of Mac-Address On Individual Switch *** "
+        
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-Mac-List-Indv_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being stored: $DIR"
+          
+        # Input
+	echo "************************************* "
+	echo -n "Input Switch IP Address: "
+	read address
+	echo "************************************* "
+
+           ./site_1-Sw-Mac-List.exp $address $username $password > $DIR/$address 2>&1
+
+        # result	
+        countNACPort=`cat $DIR/$address | wc -l`
+        countEnd=$(($countNACPort - 42))
+        viewNACPort=`cat $DIR/$address | tail -$countEnd`
+
+
+        echo ""
+        echo "Data being pulled from the logs  ..."
+        sleep 1
+        echo "Showing MAC List"
+        echo "$DIR/$viewMacList"
+        sleep 10
+        ;;
+
+        7)
+        echo "*** Search for A Mac-Address *** "
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-Mac-Search_$DATE
+        
+        mkdir -p $DIR
+	echo " "
+
+	echo "Logs being save:$DIR"
+
+	# Input
+	echo "****************************************** "
+	echo -n "Input Switch IP Address: "
+	read address
+	echo -n "Input A Mac-Address:"
+        #echo -n "E.g. 11:22:33:44:55:66:77:88): "
+	read mac
+	echo "****************************************** "
+
+           ./site_1-Sw-Mac-List-Search.exp $address $username $password $enpass $mac > $DIR/$address 2>&1
+        
+        # result
+        #viewMac=`cat $DIR/$Address | tail -8`
+        echo ""
+        echo "MAC Address being searched and showing the finding ..."
+        sleep 2
+        echo ""
+       
+
+        # result	
+        countNACPort=`cat $DIR/$address | wc -l`
+        countEnd=$(($countNACPort - 49))
+        viewMacFound=`cat $DIR/$address | tail -$countEnd`
+
+        echo ""
+        echo "$DIR/$viewMacFound"
+        sleep 6
+        ;;
+    
+	8)
+	echo " *** List of Vlan Ports for All Switches *** "
+
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-Sw-VlanPortList-All_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+
+	# Routine
+	
+	line=`cat IP-site_1.txt | wc -l`
+	echo "Number of Devices: $line"
+	
+	num=1
+
+	#echo $line
+	while [ $num -le $line ]
+             do
+
+	     address=`cat IP-site_1.txt | head -$num | tail -1`
+                
+	     echo "$num.Switch IP: $address ... saved"
+             ./site_1-Sw-VlanList.exp $address $username $password $enpass > $DIR/$address 2>&1
+
+	     num=$(( $num + 1 ));
+	     sleep 1
+	     done
+
+        echo "Listing Vlan Ports ... DONE!"
+	echo ""
+	sleep 3     	
+        ;;
+    
+	9)
+	echo " *** List Vlan Port for Individual Switch *** "
+        
+	DATE=`date +%F`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NRF-NAC-Sw-VlanPortList-Indv_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being saved: $DIR"
+          
+        # Input
+	echo "********************************** "
+	echo "Input Switch IP Address: "
+	read address
+	echo "********************************** "
+            ./site_1-Sw-VlanList.exp $address $username $password $enpass > $DIR/$address 2>&1
+
+        echo "Listing Vlan Ports ... DONE!"
+	echo ""
+	sleep 3     	
+        ;;
+	
+	c)
+	echo " *** Config From Standard Port to NAC Port @Switch Port *** "
+        
+	DATE=`date +%F_%H%M`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-logsw-config_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being stored: $DIR"
+	
+        # Input
+	echo "************************************ "
+	echo -n "Input Switch IP Address:" 
+	read address
+	echo -n "Input A Switch Port [E.g. 1/20]: " 
+	read port
+	echo "************************************ "
+
+           ./site_1-NAC-ConfigSw.exp $address $username $password $enpass $port > $DIR/$address 2>&1
+	
+	echo "Config From Standard Port to NAC Port @Switch Port ... DONE!"
+	sleep 3	
+	;;
+
+
+	cx)
+	echo " *** Config From Standard Port to NAC Port @Switch for List of Ports *** "
+        
+	DATE=`date +%F_%H%M`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-logsw-config-ext_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being stored: $DIR"
+	echo " "
+
+        # Input
+	# 1-read file
+	FILE=IP-NAC-config.txt
+	if [ ! -f $FILE ]
+	then 
+	   echo "Ensure IP-NAC-config.txt exists in /script directory"
+	   sleep 5
+	else
+	   echo "File Found, waiting for configuration"
+	   echo "*************************************"
+	   address=`cat $FILE | head -1`
+	   
+	   echo "Switch IP is $address"
+	   count=`cat $FILE | wc -l`
+	
+	   counter=$(($count-1))
+	   echo "Number of Ports: $counter"
+           
+ 	   #portlist=`cat $FILE | tail -$counter` > tmp/ports
+	   
+	   echo "Start Configuring $counter Ports in Sw: $address" 	
+           echo ""	
+	   sleep 3
+	
+	   # Loop
+	   for (( i=$counter; i>=1; i--))
+	   	do
+		   port=`cat $FILE | tail -$i | head -1` 
+	     	   #echo "number-$i:  port: $port"
+	     	   
+          ./NRF-NAC-ConfigSw.exp $address $username $password $enpass $port > $DIR/$address 2>&1
+
+	  echo "Port: $port ... configured"
+	  sleep 1
+	  done
+	  echo "NAC config ports completed !" 
+	  sleep 3
+	fi
+	;;
+
+
+    
+	r)
+	echo " *** Revert-Config From NAC To Standard Switch Port *** "
+        
+	DATE=`date +%F_%H%M`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-logsw-Revert_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "Logs being stored: $DIR"
+          
+        # Input
+	echo "***************************************************** "
+	echo -n "Input Switch IP Address:" 
+	read address
+	echo -n "Input A Switch Port [E.g. 1/20]: " 
+	read port
+	echo "*[Note: Common Service User ]*" 
+	echo -n "Input User Vlan [e.g. 101 or 102]: " 
+	read vlan
+	echo "***************************************************** "
+
+         ./site_1-NAC-ConfigSw-Revert.exp $address $username $password  $enpass $port $vlan > $DIR/$address 2>&1		
+
+	echo "NAC port reverted to the normal port ...DONE!"
+	echo "The config logs are here: $DIR"
+	sleep 3
+	echo ""
+        ;;
+    
+	v)
+	echo " *** Verify the current of a Switch Port *** "
+        
+	DATE=`date +%F_%H%M`
+	MONTH=`date +%b-%y`
+	DIR=~/script/logs/site_1/NAC-Sw/$MONTH/NAC-logsw-VerifyPort_$DATE
+
+	mkdir -p $DIR
+	echo " "
+
+	echo "The log details here: $DIR"
+          
+        # Input
+	echo "***************************************** "
+	echo -n "Input Switch IP Address: " 
+	read address
+
+	echo -n "Input A Port [e.g.1/0/4 or 1/5]: " 
+	read port
+	echo "***************************************** "
+
+        ./site_1-NAC-ConfigSw-VerifyPort.exp $address $username $password $enpass $port > $DIR/$address 2>&1
+	
+
+        # result	
+        countNACPort=`cat $DIR/$address | wc -l`
+        countEnd=$(($countNACPort - 45))
+        viewNACPort=`cat $DIR/$address | tail -$countEnd`
+
+
+        echo ""
+        echo "Data being pulled from the logs ..."
+        sleep 1
+        echo "Verifying Port being configured"
+	echo "********************************"
+	echo ""
+        echo "$DIR/$viewNACPort"
+        sleep 6
+
+        ;;
+	
+        b)
+        echo "Back to Previous Menu ..."
+           sleep 1
+           ./Menu-NRF-NAC.sh
+        ;;
+	
+        h)
+        echo "Back to Main Menu ..."
+           sleep 1
+           ./Menu.AFM.sh
+        ;;
+
+        *)
+        echo " Wrong Input, please choose again"
+        ;;
+    esac
+
+done

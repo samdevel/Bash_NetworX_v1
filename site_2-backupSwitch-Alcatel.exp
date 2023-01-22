@@ -1,0 +1,27 @@
+#!/usr/bin/expect
+
+set timeout 10
+
+
+# Get.exp IPaddress userID userPasswd
+
+spawn /usr/bin/ssh [lindex $argv 1]@[lindex $argv 0]
+sleep 10
+#expect "Username:"
+#send "[lindex $argv 1]\r"
+expect "thod:"
+send "[lindex $argv 2]\r"
+expect ">"
+send "show configuration snapshot\r"
+expect ">"
+#send "show systems\r"
+#expect ">"
+#send "show tech-support\r"
+#expect ">"
+#send "show tech-support layer2\r"
+#expect ">"
+#send "show tech-support layer3\r"
+#expect ">"
+
+send "exit\r"
+

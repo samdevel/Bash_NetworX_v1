@@ -1,0 +1,9 @@
+Release Notes:
+
+1. Initial Release
+2. Sites cover site_1, site_2, site_3, site_4
+3. Backup Firewalls
+4. Backup Switches (Alcatel and Cisco)
+5. Type of Switch backup covers config and customized config
+6. NAC tool for Switches and Aruba NAC appliance
+7. Network Tools cover Device Discovery Tool, comparing files, etc

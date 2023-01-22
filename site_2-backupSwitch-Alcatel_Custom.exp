@@ -1,0 +1,39 @@
+#!/usr/bin/expect
+
+set timeout 10 
+
+
+# Get.exp IPaddress userID userPasswd 
+
+spawn /usr/bin/ssh [lindex $argv 1]@[lindex $argv 0]
+sleep 3
+
+#expect "Username:"
+#send "[lindex $argv 1]\r"
+expect "method:"
+send "[lindex $argv 2]\r"
+expect ">"
+send "show vlan \r"
+expect ">"
+send "show vlan port \r"
+expect ">"
+send "show interfaces \r"
+expect ">"
+send "show ip interface\r"
+expect ">"
+send "show show spantree ports \r"
+expect ">"
+#send "write memory \r"
+#expect ">"
+#send "copy working cerified \r"
+expect ">"
+#send "copy working cerified-synchro \r"
+#expect ">"
+send "exit\r"
+expect "#"
+
+send "write memory\r"
+expect "#"
+send "exit\r"
+
+

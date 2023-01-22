@@ -1,0 +1,52 @@
+#!/usr/bin/expect
+
+set timeout 10 
+
+
+# Get.exp IPaddress userID userPasswd 
+
+spawn /usr/bin/ssh [lindex $argv 1]@[lindex $argv 0]
+sleep 3
+#expect "Username:"
+#send "[lindex $argv 1]\r"
+expect "word:"
+send "[lindex $argv 2]\r"
+expect ">"
+send "en\r"
+expect "word:"
+send "[lindex $argv 3]\r"
+expect "#"
+send "config t\r"
+expect "#"
+send "interface gi [lindex $argv 4]\r"
+expect "#"
+send "no authentication control-direction in\r"
+expect "#"
+send "no authentication host-mode multi-auth\r"
+expect "#"
+send "no authentication order dot1x mab\r"
+expect "#"
+send "no authentication priority dot1x mab\r"
+expect "#"
+send "no authentication port-control auto\r"
+expect "#"
+send "switchport access vlan [lindex $argv 5]\r"
+expect "#"
+send "no mab\r"
+expect "#"
+send "no dot1x pae authenticator\r"
+expect "#"
+send "no dot1x timeout tx-period 30\r"
+expect "#"
+send "no dot1x timeout supp-timeout 30\r"
+expect "#"
+send "no dot1x max-req 2\r"
+expect "#"
+send "exit\r"
+expect "#"
+send "exit\r"
+expect "#"
+send "write memory \r"
+expect "#"
+send "exit\r"
+expect "#"

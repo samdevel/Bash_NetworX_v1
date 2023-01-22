@@ -1,0 +1,27 @@
+#!/usr/bin/expect
+
+set timeout 10 
+
+
+# Get.exp IPaddress userID userPasswd 
+
+spawn /usr/bin/ssh [lindex $argv 1]@[lindex $argv 0]
+sleep 1
+#expect "Username:"
+#send "[lindex $argv 1]\r"
+expect "method:"
+send "[lindex $argv 2]\r"
+expect ">"
+send "command1 \r"
+expect ">"
+send "command2 \r"
+expect ">"
+send "write memory \r"
+expect ">"
+send "copy working cerified \r"
+expect ">"
+#send "copy working cerified-synchro \r"
+#expect ">"
+send "exit \r"
+expect ":"
+

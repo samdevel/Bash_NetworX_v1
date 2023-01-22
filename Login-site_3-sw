@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export username=admin3
+export password=forSite3Only
+
+export enpass=forCiscoOnly
+

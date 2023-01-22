@@ -1,0 +1,40 @@
+#!/usr/bin/expect
+
+set timeout 10 
+
+
+# Get.exp IPaddress userID userPasswd enablePasswd
+
+spawn /usr/bin/telnet [lindex $argv 0]
+sleep 1
+expect "Username:"
+send "[lindex $argv 1]\r"
+expect "word:"
+send "[lindex $argv 2]\r"
+expect ">"
+send "en\r"
+expect "word"
+send "[lindex $argv 3]\r"
+expect "#"
+send "conf t \r"
+expect "#"
+send "1st command \r"
+expect "#"
+send "2nd command \r"
+expect "#"
+send "3rd command \r"
+expect "#"
+send "4th command \r"
+expect "#"
+send "5th command \r"
+expect "#"
+send "6th command \r"
+expect "#"
+send "end\r"
+expect "#"
+
+send "write memory\r"
+expect "#"
+send "exit\r"
+
+

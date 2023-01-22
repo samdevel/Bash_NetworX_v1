@@ -1,0 +1,33 @@
+#!/usr/bin/expect
+
+set timeout 10 
+
+
+# Get.exp IPaddress userID userPasswd enablePasswd
+
+spawn /usr/bin/ssh [lindex $argv 1]@[lindex $argv 0]
+sleep 5
+
+expect "Username:"
+#send "[lindex $argv 1]\r"
+#expect "word"
+send "[lindex $argv 2]\r"
+expect ">"
+send "en\r"
+expect "word:"
+send "[lindex $argv 3]\r"
+expect "#"
+send "term pager 0\r"
+expect "#"
+send "show run\r"
+expect "#"
+send "term pager 50\r"
+expect "#"
+#send "show version\r"
+#expect "#"
+#send "show inventory\r"
+#expect "#"
+#send "show tech\r"
+#expect "#"
+
+send "exit\r"

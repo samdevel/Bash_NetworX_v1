@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export username=admin4
+export password=forSite4Only
+

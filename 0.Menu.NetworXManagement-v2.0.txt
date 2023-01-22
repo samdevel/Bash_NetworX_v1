@@ -1,0 +1,103 @@
+
+
+root@it:/home/it/Desktop/script# sh Menu.AFM.sh 
+
+
+
+########################################
+#   Welcome to  NetworX Management     #
+#        Developed by  sm@Devel        #
+#           Version cc-1.00            #
+########################################
+
+------- MENU --------
+Please Select Site:  
+[1] site_1 
+
+[2] site_2 
+
+[3] site_3 
+
+[r] Release Notes
+[x] Exit
+------******-----
+You Select: 1
+
+-- ################################## --
+
+
+
+ 
+#--Entering Backup Menu for Building and Floor Switches--#
+ 
+########################################
+#   Welcome to  NetworX Management     #
+#        Developed by  sm@Devel       #
+#              Site: site_1             #
+########################################
+ 
+ 
+**************************
+Please select your choice:
+**************************
+[1] Backup Configs
+[2] Backup Show-tech
+[3] Configs
+[b] back to main 
+ 
+You are choosing :
+1
+ 
+ *** Backup Configs *** 
+ 
+Config being stored into : config/Switch/July15/site_1-Configs.2017-07-13
+number of Devices: 24
+Switch IP: 1.1.1.252 ... saved
+Switch IP: 1.1.1.253 ... saved
+Switch IP: 1.1.2.251 ... saved
+Switch IP: 1.1.2.248 ... saved
+Switch IP: 1.1.2.249 ... saved
+Switch IP: 1.1.2.250 ... saved
+Switch IP: 1.1.2.240 ... saved
+Switch IP: 1.1.2.241 ... saved
+Switch IP: 1.1.2.220 ... saved
+Switch IP: 1.1.2.242 ... saved
+Switch IP: 1.1.2.243 ... saved
+Switch IP: 1.1.2.244 ... saved
+Switch IP: 1.1.2.245 ... saved
+Switch IP: 1.1.2.5 ... saved
+Switch IP: 1.1.2.6 ... saved
+Switch IP: 1.1.16.7 ... saved
+Switch IP: 1.1.18.5 ... saved
+Switch IP: 1.1.18.6 ... saved
+Switch IP: 1.1.18.7 ... saved
+Switch IP: 1.1.20.4 ... saved
+Switch IP: 1.1.20.5 ... saved
+Switch IP: 1.1.22.4 ... saved
+Switch IP: 1.1.16.6 ... saved
+Switch IP: 1.1.22.7 ... saved
+
+----000----
+
+
+########################################
+#   Welcome to  NetworX Management     #
+#        Developed by  sm@Devel       #
+#           Version cc-1.00            #
+########################################
+
+------- MENU --------
+Please Select Site:  
+[1] site_1 
+
+[2] site_2 
+
+[3] site_3 
+
+[r] Release Notes
+[x] Exit
+------******-----
+You Select: x
+Exit ...
+root@it:/home/it/Desktop/script# ^C
+
