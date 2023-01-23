@@ -94,7 +94,9 @@ Please Select Site:
 
 [2] site_2 
 
-[3] site_3 
+[3] site_3
+
+[4] site_4
 
 [r] Release Notes
 [x] Exit
